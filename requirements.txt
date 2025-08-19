@@ -3,4 +3,5 @@ gym==0.26.2
 hdbscan==0.8.39
 matplotlib==3.7.2
 scikit-learn==1.2.2
+pandas==2.0.3
 tqdm==4.67.1

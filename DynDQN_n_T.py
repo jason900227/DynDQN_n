@@ -53,7 +53,7 @@ class Runner:
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
     def save_result(self):
-        results_dir = "./results/{}/{}/Training(episode)".format(self.env_name, self.algorithm)
+        results_dir = "./results/{}/DynDQN_n_T/{}/Training(episode)".format(self.env_name, self.algorithm)
         if not os.path.exists(results_dir):
             os.makedirs(results_dir)
 
@@ -70,7 +70,7 @@ class Runner:
             # writing the data rows
             csvwriter.writerows(self.training_episode_data)
 
-        results_dir = "./results/{}/{}/Evaluate(epoch)".format(self.env_name, self.algorithm)
+        results_dir = "./results/{}/DynDQN_n_T/{}/Evaluate(epoch)".format(self.env_name, self.algorithm)
         if not os.path.exists(results_dir):
             os.makedirs(results_dir)
 

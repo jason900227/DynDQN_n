@@ -5,10 +5,10 @@ colors = ['red', 'darkorange', 'dodgerblue', 'limegreen', 'yellow', 'magenta', '
 env = "MountainCar-v0"
 seeds = [0, 10, 20, 40, 60, 80, 100]
 n_steps = [1, 2, 3, 4, 5, 6, 7]
-DynDQN_n_E_n_steps = [2]
-DynDQN_n_E_n_steps_cycles = [25]
-DynDQN_n_T_n_steps = [2]
-DynDQN_n_T_n_steps_cycles = [1000]
+DynDQN_n_E_n_steps = [1, 2, 3, 4, 5, 6, 7]
+DynDQN_n_E_n_steps_cycles = [15, 20 ,25, 30]
+DynDQN_n_T_n_steps = [1, 2, 3, 4, 5, 6, 7]
+DynDQN_n_T_n_steps_cycles = [1000, 1200, 1400, 1600]
 N_step = 3
 
 ########################################################## (merged multi steps DQN Episode reward)
@@ -30,8 +30,9 @@ for n_step in n_steps:
     for i in range(1, len(episode_reward_data_list)):
         merged_data = pd.merge(merged_data, episode_reward_data_list[i], on='Epoch number')
 
-    # Calculate the average for each Epoch number
+    # Calculate the average and std for each Epoch number
     merged_data['Episode reward'] = merged_data.iloc[:, 1:].mean(axis=1)
+    merged_data['Episode reward std'] = merged_data.iloc[:, 1:].std(axis=1)
 
     # Save the merged data into a CSV file
     results_dir = "./results/{}/Reward".format(env)
@@ -80,7 +81,7 @@ for DynDQN_n_E_n_step in DynDQN_n_E_n_steps:
         episode_reward_data_list = []
 
         for seed in seeds:
-            file_path = f"./results/{env}/DynDQN_n{DynDQN_n_E_n_step}_E{DynDQN_n_E_n_steps_cycle}/Evaluate(epoch)/Evaluate(epoch)_DynDQN_n{DynDQN_n_E_n_step}_E{DynDQN_n_E_n_steps_cycle}_seed{seed}.csv"
+            file_path = f"./results/{env}/DynDQN_n_E/DynDQN_n{DynDQN_n_E_n_step}_E{DynDQN_n_E_n_steps_cycle}/Evaluate(epoch)/Evaluate(epoch)_DynDQN_n{DynDQN_n_E_n_step}_E{DynDQN_n_E_n_steps_cycle}_seed{seed}.csv"
             data = pd.read_csv(file_path)
 
             # Extract 'Epoch number' and 'Episode reward', then rename the columns
@@ -94,27 +95,12 @@ for DynDQN_n_E_n_step in DynDQN_n_E_n_steps:
         for i in range(1, len(episode_reward_data_list)):
             merged_data = pd.merge(merged_data, episode_reward_data_list[i], on='Epoch number')
 
-        # Calculate the average for each Epoch number
+        # Calculate the average and std for each Epoch number
         merged_data['Episode reward'] = merged_data.iloc[:, 1:].mean(axis=1)
+        merged_data['Episode reward std'] = merged_data.iloc[:, 1:].std(axis=1)
 
         # Save the merged data into a CSV file
         results_dir = "./results/{}/Reward".format(env)
-        if not os.path.exists(results_dir):
-            os.makedirs(results_dir)
-
-        output_file_path = os.path.join(results_dir, f"Reward_DynDQN_n{DynDQN_n_E_n_step}_E{DynDQN_n_E_n_steps_cycle}.csv")
-        merged_data.to_csv(output_file_path, index=False)
-
-        # Save the merged data into a CSV file
-        results_dir = "./results/{}/Grid_search".format(env)
-        if not os.path.exists(results_dir):
-            os.makedirs(results_dir)
-
-        results_dir = "./results/{}/Grid_search/DynDQN_n_E".format(env)
-        if not os.path.exists(results_dir):
-            os.makedirs(results_dir)
-
-        results_dir = "./results/{}/Grid_search/DynDQN_n_E/Reward".format(env)
         if not os.path.exists(results_dir):
             os.makedirs(results_dir)
 
@@ -127,7 +113,7 @@ for DynDQN_n_E_n_step in DynDQN_n_E_n_steps:
         cv_q_value_data_list = []
 
         for seed in seeds:
-            file_path = f"./results/{env}/DynDQN_n{DynDQN_n_E_n_step}_E{DynDQN_n_E_n_steps_cycle}/Training(episode)/Training(episode)_DynDQN_n{DynDQN_n_E_n_step}_E{DynDQN_n_E_n_steps_cycle}_seed{seed}.csv"
+            file_path = f"./results/{env}/DynDQN_n_E/DynDQN_n{DynDQN_n_E_n_step}_E{DynDQN_n_E_n_steps_cycle}/Training(episode)/Training(episode)_DynDQN_n{DynDQN_n_E_n_step}_E{DynDQN_n_E_n_steps_cycle}_seed{seed}.csv"
             data = pd.read_csv(file_path)
 
             # Extract 'Episode time step' and 'Cv Q value', then rename the columns
@@ -155,29 +141,13 @@ for DynDQN_n_E_n_step in DynDQN_n_E_n_steps:
         output_file_path = os.path.join(results_dir, f"Cv_q_value_DynDQN_n{DynDQN_n_E_n_step}_E{DynDQN_n_E_n_steps_cycle}.csv")
         merged_data.to_csv(output_file_path, index=False)
 
-        # Save the merged data into a CSV file
-        results_dir = "./results/{}/Grid_search".format(env)
-        if not os.path.exists(results_dir):
-            os.makedirs(results_dir)
-
-        results_dir = "./results/{}/Grid_search/DynDQN_n_E".format(env)
-        if not os.path.exists(results_dir):
-            os.makedirs(results_dir)
-
-        results_dir = "./results/{}/Grid_search/DynDQN_n_E/Cv_q_value".format(env)
-        if not os.path.exists(results_dir):
-            os.makedirs(results_dir)
-
-        output_file_path = os.path.join(results_dir, f"Cv_q_value_DynDQN_n{DynDQN_n_E_n_step}_E{DynDQN_n_E_n_steps_cycle}.csv")
-        merged_data.to_csv(output_file_path, index=False)
-
 ########################################################## (merged DynDQN_n_E n_steps)
 for DynDQN_n_E_n_step in DynDQN_n_E_n_steps:
     for DynDQN_n_E_n_steps_cycle in DynDQN_n_E_n_steps_cycles:
         n_steps_data_list = []
 
         for seed in seeds:
-            file_path = f"./results/{env}/DynDQN_n{DynDQN_n_E_n_step}_E{DynDQN_n_E_n_steps_cycle}/Evaluate(epoch)/Evaluate(epoch)_DynDQN_n{DynDQN_n_E_n_step}_E{DynDQN_n_E_n_steps_cycle}_seed{seed}.csv"
+            file_path = f"./results/{env}/DynDQN_n_E/DynDQN_n{DynDQN_n_E_n_step}_E{DynDQN_n_E_n_steps_cycle}/Evaluate(epoch)/Evaluate(epoch)_DynDQN_n{DynDQN_n_E_n_step}_E{DynDQN_n_E_n_steps_cycle}_seed{seed}.csv"
             data = pd.read_csv(file_path)
 
             # Extract 'Epoch number' and 'N steps', then rename the columns
@@ -205,29 +175,13 @@ for DynDQN_n_E_n_step in DynDQN_n_E_n_steps:
         output_file_path = os.path.join(results_dir, f"N_steps_DynDQN_n{DynDQN_n_E_n_step}_E{DynDQN_n_E_n_steps_cycle}.csv")
         merged_data.to_csv(output_file_path, index=False)
 
-        # Save the merged data into a CSV file
-        results_dir = "./results/{}/Grid_search".format(env)
-        if not os.path.exists(results_dir):
-            os.makedirs(results_dir)
-
-        results_dir = "./results/{}/Grid_search/DynDQN_n_E".format(env)
-        if not os.path.exists(results_dir):
-            os.makedirs(results_dir)
-
-        results_dir = "./results/{}/Grid_search/DynDQN_n_E/N_steps".format(env)
-        if not os.path.exists(results_dir):
-            os.makedirs(results_dir)
-
-        output_file_path = os.path.join(results_dir, f"N_steps_DynDQN_n{DynDQN_n_E_n_step}_E{DynDQN_n_E_n_steps_cycle}.csv")
-        merged_data.to_csv(output_file_path, index=False)
-
 ########################################################## (merged DynDQN_n_T Episode reward)
 for DynDQN_n_T_n_step in DynDQN_n_T_n_steps:
     for DynDQN_n_T_n_steps_cycle in DynDQN_n_T_n_steps_cycles:
         episode_reward_data_list = []
 
         for seed in seeds:
-            file_path = f"./results/{env}/DynDQN_n{DynDQN_n_T_n_step}_T{DynDQN_n_T_n_steps_cycle}/Evaluate(epoch)/Evaluate(epoch)_DynDQN_n{DynDQN_n_T_n_step}_T{DynDQN_n_T_n_steps_cycle}_seed{seed}.csv"
+            file_path = f"./results/{env}/DynDQN_n_T/DynDQN_n{DynDQN_n_T_n_step}_T{DynDQN_n_T_n_steps_cycle}/Evaluate(epoch)/Evaluate(epoch)_DynDQN_n{DynDQN_n_T_n_step}_T{DynDQN_n_T_n_steps_cycle}_seed{seed}.csv"
             data = pd.read_csv(file_path)
 
             # Extract 'Epoch number' and 'Episode reward', then rename the columns
@@ -241,27 +195,12 @@ for DynDQN_n_T_n_step in DynDQN_n_T_n_steps:
         for i in range(1, len(episode_reward_data_list)):
             merged_data = pd.merge(merged_data, episode_reward_data_list[i], on='Epoch number')
 
-        # Calculate the average for each Epoch number
+        # Calculate the average and std for each Epoch number
         merged_data['Episode reward'] = merged_data.iloc[:, 1:].mean(axis=1)
+        merged_data['Episode reward std'] = merged_data.iloc[:, 1:].std(axis=1)
 
         # Save the merged data into a CSV file
         results_dir = "./results/{}/Reward".format(env)
-        if not os.path.exists(results_dir):
-            os.makedirs(results_dir)
-
-        output_file_path = os.path.join(results_dir, f"Reward_DynDQN_n{DynDQN_n_T_n_step}_T{DynDQN_n_T_n_steps_cycle}.csv")
-        merged_data.to_csv(output_file_path, index=False)
-
-        # Save the merged data into a CSV file
-        results_dir = "./results/{}/Grid_search".format(env)
-        if not os.path.exists(results_dir):
-            os.makedirs(results_dir)
-
-        results_dir = "./results/{}/Grid_search/DynDQN_n_T".format(env)
-        if not os.path.exists(results_dir):
-            os.makedirs(results_dir)
-
-        results_dir = "./results/{}/Grid_search/DynDQN_n_T/Reward".format(env)
         if not os.path.exists(results_dir):
             os.makedirs(results_dir)
 
@@ -274,7 +213,7 @@ for DynDQN_n_T_n_step in DynDQN_n_T_n_steps:
         cv_q_value_data_list = []
 
         for seed in seeds:
-            file_path = f"./results/{env}/DynDQN_n{DynDQN_n_T_n_step}_T{DynDQN_n_T_n_steps_cycle}/Training(episode)/Training(episode)_DynDQN_n{DynDQN_n_T_n_step}_T{DynDQN_n_T_n_steps_cycle}_seed{seed}.csv"
+            file_path = f"./results/{env}/DynDQN_n_T/DynDQN_n{DynDQN_n_T_n_step}_T{DynDQN_n_T_n_steps_cycle}/Training(episode)/Training(episode)_DynDQN_n{DynDQN_n_T_n_step}_T{DynDQN_n_T_n_steps_cycle}_seed{seed}.csv"
             data = pd.read_csv(file_path)
 
             # Extract 'Episode time step' and 'Cv Q value', then rename the columns
@@ -302,29 +241,13 @@ for DynDQN_n_T_n_step in DynDQN_n_T_n_steps:
         output_file_path = os.path.join(results_dir, f"Cv_q_value_DynDQN_n{DynDQN_n_T_n_step}_T{DynDQN_n_T_n_steps_cycle}.csv")
         merged_data.to_csv(output_file_path, index=False)
 
-        # Save the merged data into a CSV file
-        results_dir = "./results/{}/Grid_search".format(env)
-        if not os.path.exists(results_dir):
-            os.makedirs(results_dir)
-
-        results_dir = "./results/{}/Grid_search/DynDQN_n_T".format(env)
-        if not os.path.exists(results_dir):
-            os.makedirs(results_dir)
-
-        results_dir = "./results/{}/Grid_search/DynDQN_n_T/Cv_q_value".format(env)
-        if not os.path.exists(results_dir):
-            os.makedirs(results_dir)
-
-        output_file_path = os.path.join(results_dir, f"Cv_q_value_DynDQN_n{DynDQN_n_T_n_step}_T{DynDQN_n_T_n_steps_cycle}.csv")
-        merged_data.to_csv(output_file_path, index=False)
-
 ########################################################## (merged DynDQN_n_T n_steps)
 for DynDQN_n_T_n_step in DynDQN_n_T_n_steps:
     for DynDQN_n_T_n_steps_cycle in DynDQN_n_T_n_steps_cycles:
         n_steps_data_list = []
 
         for seed in seeds:
-            file_path = f"./results/{env}/DynDQN_n{DynDQN_n_T_n_step}_T{DynDQN_n_T_n_steps_cycle}/Evaluate(epoch)/Evaluate(epoch)_DynDQN_n{DynDQN_n_T_n_step}_T{DynDQN_n_T_n_steps_cycle}_seed{seed}.csv"
+            file_path = f"./results/{env}/DynDQN_n_T/DynDQN_n{DynDQN_n_T_n_step}_T{DynDQN_n_T_n_steps_cycle}/Evaluate(epoch)/Evaluate(epoch)_DynDQN_n{DynDQN_n_T_n_step}_T{DynDQN_n_T_n_steps_cycle}_seed{seed}.csv"
             data = pd.read_csv(file_path)
 
             # Extract 'Epoch number' and 'N steps', then rename the columns
@@ -346,22 +269,6 @@ for DynDQN_n_T_n_step in DynDQN_n_T_n_steps:
 
         # Save the merged data into a CSV file
         results_dir = "./results/{}/N_steps".format(env)
-        if not os.path.exists(results_dir):
-            os.makedirs(results_dir)
-
-        output_file_path = os.path.join(results_dir, f"N_steps_DynDQN_n{DynDQN_n_T_n_step}_T{DynDQN_n_T_n_steps_cycle}.csv")
-        merged_data.to_csv(output_file_path, index=False)
-
-        # Save the merged data into a CSV file
-        results_dir = "./results/{}/Grid_search".format(env)
-        if not os.path.exists(results_dir):
-            os.makedirs(results_dir)
-
-        results_dir = "./results/{}/Grid_search/DynDQN_n_T".format(env)
-        if not os.path.exists(results_dir):
-            os.makedirs(results_dir)
-
-        results_dir = "./results/{}/Grid_search/DynDQN_n_T/N_steps".format(env)
         if not os.path.exists(results_dir):
             os.makedirs(results_dir)
 
@@ -386,8 +293,9 @@ merged_data = episode_reward_data_list[0]
 for i in range(1, len(episode_reward_data_list)):
     merged_data = pd.merge(merged_data, episode_reward_data_list[i], on='Epoch number')
 
-# Calculate the average for each Epoch number
+# Calculate the average and std for each Epoch number
 merged_data['Episode reward'] = merged_data.iloc[:, 1:].mean(axis=1)
+merged_data['Episode reward std'] = merged_data.iloc[:, 1:].std(axis=1)
 
 # Save the merged data into a CSV file
 results_dir = "./results/{}/Reward".format(env)
@@ -479,8 +387,9 @@ merged_data = episode_reward_data_list[0]
 for i in range(1, len(episode_reward_data_list)):
     merged_data = pd.merge(merged_data, episode_reward_data_list[i], on='Epoch number')
 
-# Calculate the average for each Epoch number
+# Calculate the average and std for each Epoch number
 merged_data['Episode reward'] = merged_data.iloc[:, 1:].mean(axis=1)
+merged_data['Episode reward std'] = merged_data.iloc[:, 1:].std(axis=1)
 
 # Save the merged data into a CSV file
 results_dir = "./results/{}/Reward".format(env)
@@ -540,8 +449,9 @@ merged_data = episode_reward_data_list[0]
 for i in range(1, len(episode_reward_data_list)):
     merged_data = pd.merge(merged_data, episode_reward_data_list[i], on='Epoch number')
 
-# Calculate the average for each Epoch number
+# Calculate the average and std for each Epoch number
 merged_data['Episode reward'] = merged_data.iloc[:, 1:].mean(axis=1)
+merged_data['Episode reward std'] = merged_data.iloc[:, 1:].std(axis=1)
 
 # Save the merged data into a CSV file
 results_dir = "./results/{}/Reward".format(env)
