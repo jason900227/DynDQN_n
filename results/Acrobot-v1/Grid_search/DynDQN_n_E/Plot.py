@@ -17,10 +17,13 @@ for n_steps_cycle in n_steps_cycles:
         file_path = f"./results/{env}/Reward/Reward_DynDQN_n{n_step}_E{n_steps_cycle}.csv"
         data = pd.read_csv(file_path)
 
-        # Calculate the smoothed Episode reward
+        # Calculate the smoothed Episode reward and std
         window_size = 10
         data['Smoothed Episode reward'] = data['Episode reward'].rolling(window=window_size, min_periods=1).mean()
         print(f"DynDQN_n{n_step}_E{n_steps_cycle} Last 15 epoch average reward: {data['Smoothed Episode reward'].tail(15).mean()}")
+
+        data['Smoothed Episode reward std'] = data['Episode reward std'].rolling(window=window_size, min_periods=1).mean()
+        print(f"DynDQN_n{n_step}_E{n_steps_cycle} Last 15 epoch average reward std: {data['Smoothed Episode reward std'].tail(15).mean()}\n")
         
         # Plot the smoothed data
         ax.plot(data['Epoch number'], data['Smoothed Episode reward'], label=f'DynDQN_n{n_step}_E{n_steps_cycle}', linestyle='-', color=colors[i], linewidth=2)

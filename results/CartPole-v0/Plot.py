@@ -19,10 +19,13 @@ for i, n_step in enumerate(n_steps):
     file_path = f"./results/{env}/Reward/Reward_DQN_n{n_step}.csv"
     data = pd.read_csv(file_path)
 
-    # Calculate the smoothed Episode reward
+    # Calculate the smoothed Episode reward and std
     window_size = 10
     data['Smoothed Episode reward'] = data['Episode reward'].rolling(window=window_size, min_periods=1).mean()
     print(f"DQN_n{n_step} Last 15 epoch average reward: {data['Smoothed Episode reward'].tail(15).mean()}")
+
+    data['Smoothed Episode reward std'] = data['Episode reward std'].rolling(window=window_size, min_periods=1).mean()
+    print(f"DQN_n{n_step} Last 15 epoch average reward std: {data['Smoothed Episode reward std'].tail(15).mean()}\n")
         
     # Plot the smoothed data
     plt.plot(data['Epoch number'], data['Smoothed Episode reward'], label=f'DQN_n{n_step}', linestyle='-', color=colors[i], linewidth=2)
@@ -31,10 +34,13 @@ for i, n_step in enumerate(n_steps):
 file_path = f"./results/{env}/Reward/Reward_ESDQN.csv"
 data = pd.read_csv(file_path)
 
-# Calculate the smoothed Episode reward
+# Calculate the smoothed Episode reward and std
 window_size = 10
 data['Smoothed Episode reward'] = data['Episode reward'].rolling(window=window_size, min_periods=1).mean()
 print(f"ESDQN Last 15 epoch average reward: {data['Smoothed Episode reward'].tail(15).mean()}")
+
+data['Smoothed Episode reward std'] = data['Episode reward std'].rolling(window=window_size, min_periods=1).mean()
+print(f"ESDQN Last 15 epoch average reward std: {data['Smoothed Episode reward std'].tail(15).mean()}\n")
     
 # Plot the smoothed data
 plt.plot(data['Epoch number'], data['Smoothed Episode reward'], label='ESDQN', linestyle='-', color='red', linewidth=2)
@@ -43,10 +49,13 @@ plt.plot(data['Epoch number'], data['Smoothed Episode reward'], label='ESDQN', l
 file_path = f"./results/{env}/Reward/Reward_DynDQN_n{DynDQN_n_E_n_step}_E{DynDQN_n_E_n_steps_cycle}.csv"
 data = pd.read_csv(file_path)
 
-# Calculate the smoothed Episode reward
+# Calculate the smoothed Episode reward and std
 window_size = 10
 data['Smoothed Episode reward'] = data['Episode reward'].rolling(window=window_size, min_periods=1).mean()
 print(f"DynDQN_n{DynDQN_n_E_n_step}_E{DynDQN_n_E_n_steps_cycle} Last 15 epoch average reward: {data['Smoothed Episode reward'].tail(15).mean()}")
+
+data['Smoothed Episode reward std'] = data['Episode reward std'].rolling(window=window_size, min_periods=1).mean()
+print(f"DynDQN_n{DynDQN_n_E_n_step}_E{DynDQN_n_E_n_steps_cycle} Last 15 epoch average reward std: {data['Smoothed Episode reward std'].tail(15).mean()}\n")
     
 # Plot the smoothed data
 plt.plot(data['Epoch number'], data['Smoothed Episode reward'], label=f'DynDQN_n{DynDQN_n_E_n_step}_E{DynDQN_n_E_n_steps_cycle}', linestyle='-', color=colors[i+1], linewidth=2)
@@ -55,11 +64,14 @@ plt.plot(data['Epoch number'], data['Smoothed Episode reward'], label=f'DynDQN_n
 file_path = f"./results/{env}/Reward/Reward_DynDQN_n{DynDQN_n_T_n_step}_T{DynDQN_n_T_n_steps_cycle}.csv"
 data = pd.read_csv(file_path)
 
-# Calculate the smoothed Episode reward
+# Calculate the smoothed Episode reward and std
 window_size = 10
 data['Smoothed Episode reward'] = data['Episode reward'].rolling(window=window_size, min_periods=1).mean()
 print(f"DynDQN_n{DynDQN_n_T_n_step}_T{DynDQN_n_T_n_steps_cycle} Last 15 epoch average reward: {data['Smoothed Episode reward'].tail(15).mean()}")
     
+data['Smoothed Episode reward std'] = data['Episode reward std'].rolling(window=window_size, min_periods=1).mean()
+print(f"DynDQN_n{DynDQN_n_T_n_step}_E{DynDQN_n_T_n_steps_cycle} Last 15 epoch average reward std: {data['Smoothed Episode reward std'].tail(15).mean()}\n")
+
 # Plot the smoothed data
 plt.plot(data['Epoch number'], data['Smoothed Episode reward'], label=f'DynDQN_n{DynDQN_n_T_n_step}_T{DynDQN_n_T_n_steps_cycle}', linestyle='-', color=colors[i+2], linewidth=2)
 
@@ -67,10 +79,13 @@ plt.plot(data['Epoch number'], data['Smoothed Episode reward'], label=f'DynDQN_n
 file_path = f"./results/{env}/Reward/Reward_DQN_LNSS_N{N_step}.csv"
 data = pd.read_csv(file_path)
 
-# Calculate the smoothed Episode reward
+# Calculate the smoothed Episode reward and std
 window_size = 10
 data['Smoothed Episode reward'] = data['Episode reward'].rolling(window=window_size, min_periods=1).mean()
 print(f"DQN_LNSS Last 15 epoch average reward: {data['Smoothed Episode reward'].tail(15).mean()}")
+
+data['Smoothed Episode reward std'] = data['Episode reward std'].rolling(window=window_size, min_periods=1).mean()
+print(f"DQN_LNSS Last 15 epoch average reward std: {data['Smoothed Episode reward std'].tail(15).mean()}\n")
     
 # Plot the smoothed data
 plt.plot(data['Epoch number'], data['Smoothed Episode reward'], label=f'DQN_LNSS', linestyle='-', color=colors[i+3], linewidth=2)
@@ -79,10 +94,13 @@ plt.plot(data['Epoch number'], data['Smoothed Episode reward'], label=f'DQN_LNSS
 file_path = f"./results/{env}/Reward/Reward_MMDQN_n{N_step}.csv"
 data = pd.read_csv(file_path)
 
-# Calculate the smoothed Episode reward
+# Calculate the smoothed Episode reward and std
 window_size = 10
 data['Smoothed Episode reward'] = data['Episode reward'].rolling(window=window_size, min_periods=1).mean()
 print(f"MMDQN Last 15 epoch average reward: {data['Smoothed Episode reward'].tail(15).mean()}")
+
+data['Smoothed Episode reward std'] = data['Episode reward std'].rolling(window=window_size, min_periods=1).mean()
+print(f"MMDQN Last 15 epoch average reward std: {data['Smoothed Episode reward std'].tail(15).mean()}")
     
 # Plot the smoothed data
 plt.plot(data['Epoch number'], data['Smoothed Episode reward'], label=f'MMDQN', linestyle='-', color=colors[i+4], linewidth=2)
