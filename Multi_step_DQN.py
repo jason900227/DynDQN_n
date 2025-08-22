@@ -227,7 +227,7 @@ class Runner:
     
 if __name__ == '__main__':
 
-    n_steps_list = [1]
+    n_steps_list = [1, 2, 3, 4, 5, 6, 7]
     for n_steps in n_steps_list:
 
         parser = argparse.ArgumentParser("Hyperparameter Setting for DQN")

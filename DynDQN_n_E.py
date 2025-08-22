@@ -255,8 +255,8 @@ class Runner:
     
 if __name__ == '__main__':
 
-    n_steps_cycle_list = [25]
-    n_steps_list = [6]
+    n_steps_cycle_list = [15, 20, 25, 30]
+    n_steps_list = [1, 2, 3, 4, 5, 6, 7]
     for n_steps in n_steps_list:
         for n_steps_cycle in n_steps_cycle_list:
 

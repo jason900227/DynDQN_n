@@ -33,8 +33,7 @@ This repository contains the implementation of **Dynamic Multi-step Deep Reinfor
 ### 3.1 Multi-step TD Method with Fixed n (Baseline)
   * DQN_n1, DQN_n2, ..., DQN_n7: The subscript `n` indicates the number of steps used for the multi-step TD updates.
 ### 3.2 Multi-step TD Method with Fixed n Extension
-  * EnDQN: Using an averaged reward over a fixed n-step as the multi-step TD updates target reward.
-  * LNSS: Using an discounted weighted reward over a fixed n-step as the multi-step TD updates target reward.
+  * DQN_LNSS: Using an discounted weighted reward over a fixed n-step as the multi-step TD updates target reward.
   * MMDQN: Using the average of multiple n-step TD targets as the multi-step TD updates target.
 ### 3.3 Multi-step TD Method with Dynamic n
   * ESDQN: Uses the clustering algorithm (HDBSCAN) to identify state similarity and dynamically adjust the return length `n` in multi-step TD updates.
@@ -46,8 +45,7 @@ This repository contains the implementation of **Dynamic Multi-step Deep Reinfor
   ```
   # Run
   python Multi_step_DQN.py
-  python EnDQN.py
-  python LNSS.py
+  python DQN_LNSS.py
   python MMDQN.py
   python ESDQN.py
   python DynDQN_n_E.py
