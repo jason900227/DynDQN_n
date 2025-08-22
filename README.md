@@ -14,7 +14,13 @@ This repository contains the implementation of **Dynamic Multi-step Deep Reinfor
 * **Gym**: 0.26.2
 
 ## 2. Installation
-### Create New Conda Environment
+### 2.1 Clone this project
+  ```
+  cd ~
+  git clone https://github.com/jason900227/DynDQN_n.git
+  cd DynDQN_n
+  ```
+### 2.2 Create New Conda Environment
   ```
   # Create environment with Python 3.8.20
   conda create --name DynDQN_n python=3.8.20 -y
