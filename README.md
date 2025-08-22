@@ -61,4 +61,4 @@ This repository contains the implementation of **Dynamic Multi-step Deep Reinfor
 > All hyperparameters are defined inside each algorithm's Python script in the `argparse` section.
 > - Common parameters include `hidden_dim`, `lr`, `target_update_freq`, `max_training_steps`, `evaluate_freq`, `epsilon_decay_steps`, `n_steps`, etc.
 > - Environment-specific settings (`hidden_dim`, `lr`, `target_update_freq`, `max_training_steps`, `evaluate_freq`, `epsilon_decay_steps`) are provided in comments above the `env_names` list in the script.
-> - To modify parameters for a specific method, open the corresponding `.py` file (e.g., `Multi_step_DQN.py`, `EnDQN.py`, `LNSS.py`, etc.) and edit the `parser.add_argument(...)` values directly.
+> - To modify parameters for a specific method, open the corresponding `.py` file (e.g., `Multi_step_DQN.py`, `DQN_LNSS`, etc.) and edit the `parser.add_argument(...)` values directly.
